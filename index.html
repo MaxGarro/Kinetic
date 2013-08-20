@@ -1,0 +1,333 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+      #container {
+        background-color: #222;
+        position:fixed;
+        width: 640px;
+        height: 480px;
+        top:50%;
+        left: 50%;
+        margin-top: -240px;
+        margin-left: -320px;
+      }
+      .asd{border:4px solid #ff0000;}
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script src="lib/kinetic-v4.6.0.min.js"></script>
+    <script src="src/jquery.js"></script>
+    <script defer="defer">
+    $(document).ready(function() {
+      //Creamos el escenario
+      var escenario = new Kinetic.Stage({
+          container: 'container',
+          width: 640,
+          height: 480,
+      });
+
+      //Capas
+      var principal = new Kinetic.Layer();
+      var fondo     = new Kinetic.Layer();
+      var panel     = new Kinetic.Layer();
+
+      //Creamos imagen de fondo
+      var imagen = new Image();
+      imagen.src = 'assets/fondo2.png';
+
+      //Creamos kinect Image
+      var imgFondo = new Kinetic.Image({
+        image: imagen,
+        x: 0,
+        y: 0,
+        width: 640,
+        height: 480
+      });
+
+      //Agreegamos fondo
+      fondo.add(imgFondo);
+
+      //Creando panel----------------------------------
+      var ImagenPanel = new Image();
+      ImagenPanel.src = 'assets/map.png';
+
+      //Creamos kinect Image
+      var ImagenPanel = new Kinetic.Image({
+        image: ImagenPanel,
+        x: 0,
+        y: 480-128,
+        width: 640,
+        height: 128
+      });
+
+      //Agreegamos fondo
+      panel.add(ImagenPanel);
+
+      //Agregar carta
+      var Carta = new Image();
+      Carta.src = 'assets/carta3.jpg';
+	  var Carta2 = new Image();
+      Carta2.src = 'assets/carta2.jpg';
+		
+      //Creamos kinect Image
+      var Carta = new Kinetic.Image({
+        image: Carta,
+        x: 10,
+        y: 480-118,
+        width: 70,
+        height: 108,
+      });
+	  var Carta2 = new Kinetic.Image({
+        image: Carta2,
+        x: 400,
+        y: 480-118,
+        width: 70,
+        height: 108,
+      });
+      //Agrego cartas al panel
+      panel.add(Carta);
+	  panel.add(Carta2);
+
+      //Fin de Panel------------------------------------
+
+      //JSON de animación
+      var animations = 
+          {
+            idle: [
+                    {x: 2  ,y: 2  , width: 70 , height: 119}, 
+                    {x: 71 ,y: 2  , width: 74 , height: 119}, 
+                    {x: 146,y: 2  , width: 81 , height: 119}, 
+                    {x: 226,y: 2  , width: 76 , height: 119}
+                  ],
+            punch:[
+                    {x: 2  ,y: 138, width: 74 , height: 122}, 
+                    {x: 76 ,y: 138, width: 84 , height: 122}, 
+                    {x: 346,y: 138, width: 120, height: 122}
+                  ],
+            walk :[
+                    {x: 414,y: 2, width: 78 , height: 119}, 
+                    {x: 492,y: 2, width: 87 , height: 119}, 
+                    {x: 579,y: 2, width: 65 , height: 119},
+                    {x: 644,y: 2, width: 59 , height: 119}
+                  ]
+          };
+	  var animationsEnemy = 
+          {
+            idle: [
+                    {x: 0  ,y: 0  , width: 139 , height: 132}
+                  ],
+            salto:[
+                    {x: 0  ,y: 260, width: 138 , height: 115}, 
+                    {x: 137 ,y: 260, width: 152 , height: 100}, 
+                    {x: 288,y: 260, width: 133, height: 103},
+					{x: 420 ,y: 260, width: 115 , height: 100}
+                  ],
+		    golpe:[
+					{x: 536 ,y: 260, width: 164 , height: 130}
+				 ],
+			slash:[
+					{x: 700 ,y: 261, width: 255 , height: 159}
+				 ],
+            walk :[
+                    {x: 140,y: 0, width: 120 , height: 138}, 
+                    {x: 260,y: 0, width: 140 , height: 130}, 
+                    {x: 400,y: 0, width: 110 , height: 132},
+                    {x: 510,y: 0, width: 137 , height: 132},
+					{x: 643,y: 0, width: 155 , height: 130},
+					{x: 796,y: 0, width: 99 , height: 133}
+                  ]
+          };
+
+      //Agregamos Sprite como imagen
+      var imagenSprite = new Image();
+      imagenSprite.src = 'assets/blob-sprite.png';
+	  
+	    	
+      imagenSprite.onload  = function() {
+        //Creamos la imagen como Sprite
+        var heroe= new Kinetic.Sprite({
+          x: 100,
+          y: 200,
+          image: imagenSprite,
+          animation: 'idle',
+          animations: animations,
+          frameRate: 5,
+          index: 0
+        });
+		
+		
+
+        //Agregamos a la capa principal el enemigo
+        principal.add(heroe);
+
+        //Ponemos fondo en el escenario
+        escenario.add(fondo);
+        escenario.add(principal);
+        escenario.add(panel);
+
+        //Comenzamos la animación del enemigo
+        heroe.start();
+
+        //Ponemos la función aca para que funcione 
+          //Atacamos mierda!!!
+        var Ataque = new Kinetic.Tween({
+          node: heroe,
+          duration: 1,
+          x: 400, 
+          y:200,
+          easing: Kinetic.Easings.EaseInOut,
+          onFinish: function() {  
+            //Le ponemos un texto
+            var text = new Kinetic.Text({
+              x: 500,
+              y: 200,
+              text: 'Toma gato!',
+              fontSize: 22,
+              fontFamily: 'Calibri',
+              fill: 'red'
+            });        
+            principal.add(text);    
+            //Luego de ir, pego
+            
+           heroe.setAnimation('punch'); 
+            //Luego de pegar 
+            heroe.afterFrame(2, function() {
+              var AtaqueText = new Kinetic.Tween({
+                node: text,
+                y:180,
+                duration: 1,
+                opacity:0,
+                easing: Kinetic.Easings.EaseInOut
+              }).play();
+
+              //Camino
+              heroe.setAnimation('idle');
+              //De reversa papi 
+              Ataque.reverse();
+            }); 
+          }
+        });
+
+        //Eventos
+        Carta.on('click',function(){ 
+          heroe.setAnimation('walk');          
+          Ataque.reverse().play();
+
+        }); //Termina atacar
+
+        //Agrego cursor
+        Carta.on('mouseover', function() {
+          document.body.style.cursor = 'pointer';
+        });
+
+        //Quito cursor
+        Carta.on('mouseout', function() {
+          document.body.style.cursor = 'default';
+        });
+
+
+      }
+	  var imagenSpriteEnemy = new Image();
+      imagenSpriteEnemy.src = 'assets/heroe2.png';
+	  
+	  imagenSpriteEnemy.onload  = function() {
+        //Creamos la imagen como Sprite
+        var enemy= new Kinetic.Sprite({
+          x: 500,
+          y: 185,
+          image: imagenSpriteEnemy,
+          animation: 'idle',
+          animations: animationsEnemy,
+          frameRate: 4,
+          index: 0,
+        });
+		
+		
+
+        //Agregamos a la capa principal el enemigo
+        principal.add(enemy);
+
+        //Comenzamos la animación del enemigo
+        enemy.start();
+		enemy.setAnimation('idle'); 
+        var correr = new Kinetic.Tween({
+          node: enemy,
+          duration: 1,
+          x: 200, 
+          y: 185,
+          easing: Kinetic.Easings.EaseInOut,
+          onFinish: function() {  
+            //Le ponemos un texto
+            var text = new Kinetic.Text({
+              x: 100,
+              y: 150,
+              text: 'Toma Guacho!',
+              fontSize: 22,
+              fontFamily: 'Calibri',
+              fill: 'red'
+            });        
+            principal.add(text);     
+			enemy.setAnimation('salto');
+			var pegar = new Kinetic.Tween({
+				  node: enemy,
+				  duration: 0.3,
+				  x: -45, 
+				  y: 170,
+				  easing: Kinetic.Easings.EaseInOut,
+				  onFinish: function() { 
+					enemy.setAnimation('golpe'); 
+						  
+					//Creamos la imagen como Sprite
+					var slash= new Kinetic.Sprite({
+					  x: 45,
+					  y: 170,
+					  image: imagenSpriteEnemy,
+					  animation: 'slash',
+					  animations: animationsEnemy,
+					  frameRate: 5,
+					});
+					 principal.add(slash);
+					 
+					 setTimeout(function() {
+						var AtaqueText = new Kinetic.Tween({
+							node: text,
+							y:180,
+							duration: 1,
+							opacity:0,
+							easing: Kinetic.Easings.EaseInOut
+						}).play();
+						enemy.setAttr('x', 500);
+						enemy.setAnimation('idle');
+						slash.destroy();
+						
+					 }, 500);
+					 
+					 
+				  }
+			}).play();
+		    
+			
+            
+          }
+		});
+		//Luego de correr 
+        
+        
+		
+		Carta2.on('click',function(){ 
+          enemy.setAnimation('walk');          
+          correr.play();
+		  
+		});
+	}
+	  
+    });
+    </script>
+  </body>
+</html>
