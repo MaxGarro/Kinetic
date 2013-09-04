@@ -38,15 +38,23 @@ function initStage(images) {
   heroe = new personaje(1,'heroe');
   principal.add(heroe.sprite);
   heroe.sprite.start();
-
-  ControldeAtaque = new carta(heroe);
+  ControldeAtaque = new carta(heroe,1,images.carta1.src);
+  ControldeAtaque2 = new carta(heroe,9,images.carta2.src);
 
   ControldeAtaque.card.on('click',function(){  
     ControldeAtaque.card.setOpacity(0);
     ControldeAtaque.card.destroy();
+    escenario.draw();
+  });
+
+  ControldeAtaque2.card.on('click',function(){  
+    ControldeAtaque2.card.setOpacity(0);
+    ControldeAtaque2.card.destroy();
+    escenario.draw();
   });
 
   panel.add(ControldeAtaque.card);
+  panel.add(ControldeAtaque2.card);
   //agregamos al escenario
   escenario.add(background);
   escenario.add(panel);

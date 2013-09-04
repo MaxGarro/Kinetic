@@ -1,10 +1,11 @@
-var carta = function(heroe){
+var carta = function(heroe,num,imagen){
+
         this.img = new Image();
-        this.img.src = 'assets/carta2.jpg';
+        this.img.src = imagen;
                 
         this.card = new Kinetic.Image({
                 image: this.img,
-                x: 10,
+                x: 10 * num,//(num * this.img.width),
                 y: 480-118,
                 width: 70,
                 height: 108
