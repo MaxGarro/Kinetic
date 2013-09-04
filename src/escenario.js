@@ -38,10 +38,15 @@ function initStage(images) {
   heroe = new personaje(1,'heroe');
   principal.add(heroe.sprite);
   heroe.sprite.start();
-  ControldeAtaque = new carta(heroe,1,images.carta1.src);
-  ControldeAtaque2 = new carta(heroe,9,images.carta2.src);
+  //genero una carta y le paso
+  //a quien afecta
+  //el multiplicador de espacio en x
+  //y la ruta de la imagen sacada del surce
+  ControldeAtaque = new carta(heroe,1,images.carta1.src,escenario);
+  ControldeAtaque2 = new carta(heroe,9,images.carta2.src,escenario);
 
-  ControldeAtaque.card.on('click',function(){  
+  ControldeAtaque.card.on('click',function(){
+
     ControldeAtaque.card.setOpacity(0);
     ControldeAtaque.card.destroy();
     escenario.draw();

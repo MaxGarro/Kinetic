@@ -45,7 +45,7 @@ var personaje = function(id,bando){
 
 
 }
-personaje.prototype.ataque = function() {
+personaje.prototype.ataque = function(escenario) {
         var sprites = this.sprite;
         var Ataque = new Kinetic.Tween({
           node: sprites,
@@ -54,13 +54,18 @@ personaje.prototype.ataque = function() {
           y:200,
           easing: Kinetic.Easings.EaseInOut,
           onFinish: function() {  
+
                 sprites.setAnimation('golpe'); 
                 sprites.afterFrame(2, function() {
                         sprites.setAnimation('movimiento');
                         Ataque.reverse();
+                        escenario.setListening(true);
                 }); 
           }
+
         });
-        Ataque.reverse().play();
+
+        Ataque.play();
+
 
 }

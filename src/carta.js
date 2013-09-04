@@ -1,4 +1,4 @@
-var carta = function(heroe,num,imagen){
+var carta = function(heroe,num,imagen,escenario){
 
         this.img = new Image();
         this.img.src = imagen;
@@ -12,8 +12,9 @@ var carta = function(heroe,num,imagen){
         });
 
         //Eventos
-        this.card.on('click',function(){  
-          heroe.ataque();
+        this.card.on('click',function(){ 
+          escenario.setListening(false);   
+          heroe.ataque(escenario);
         });
 
         //Agrego cursor
