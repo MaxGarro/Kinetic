@@ -1,7 +1,9 @@
 //Imagenes
 var sources = {
     back      : 'fondo2.png',
-    panel     : 'map.png'
+    panel     : 'map.png',
+    carta1    : 'carta3.jpg',
+    carta2    : 'carta2.jpg'
 };
 //Funcion de carga
 function loadImages(sources, callback) {

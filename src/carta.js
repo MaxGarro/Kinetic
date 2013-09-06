@@ -1,18 +1,20 @@
-var carta = function(heroe){
+var carta = function(heroe,num,imagen,escenario){
+
         this.img = new Image();
-        this.img.src = 'assets/carta2.jpg';
+        this.img.src = imagen;
                 
         this.card = new Kinetic.Image({
                 image: this.img,
-                x: 10,
+                x: 10 * num,//(num * this.img.width),
                 y: 480-118,
                 width: 70,
                 height: 108
         });
 
         //Eventos
-        this.card.on('click',function(){  
-          heroe.ataque();
+        this.card.on('click',function(){ 
+          escenario.setListening(false);   
+          heroe.ataque(escenario);
         });
 
         //Agrego cursor
